@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Transaction } from './entities/transaction.entity';
+import { CreateTransactionDto, Status } from './dto/create-transaction.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -16,20 +17,17 @@ export class TransactionsService {
     return this.transactions;
   }
 
-  create(transaction: Partial<Transaction>) {
-
-    if (!transaction.status) {
-      transaction.status = "PENDING"
-    }
-    
+  create(transaction: CreateTransactionDto) {
     const newTransaction = {
       id: Math.random().toString(36).substring(7),
       timestamp: new Date(),
-      ...transaction,
+      amount: transaction.amount,
+      status: transaction.status ?? Status.PENDING,
+      type: transaction.type
     } as Transaction;
 
     this.transactions.push(newTransaction);
 
-    return newTransaction
+    return newTransaction;
   }
 }

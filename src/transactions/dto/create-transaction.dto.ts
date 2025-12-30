@@ -1,11 +1,13 @@
 import { IsNotEmpty, IsOptional } from "class-validator";
 
-export class CreateTransactionDto {
-    @IsNotEmpty()
-    id: string;
+export enum Status {
+    PENDING = 'PENDING',
+    COMPLETED = 'COMPLETED'
+}
 
+export class CreateTransactionDto {
     @IsOptional()
-    status: string = "PENDING"
+    status?: Status;
 
     @IsNotEmpty()
     amount: number;

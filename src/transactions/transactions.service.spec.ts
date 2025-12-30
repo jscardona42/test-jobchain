@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionsService } from './transactions.service';
 
-describe('TweetsService', () => {
+describe('TransactionService', () => {
     let service: TransactionsService;
 
     beforeEach(async () => {
@@ -13,13 +13,19 @@ describe('TweetsService', () => {
     });
 
     describe('create', () => {
-        it('should successfully create transaction', async () => {
-            const result: any = { id: '1', amount: 100, type: 'DEPOSIT', timestamp: new Date() };
+        it('should create a transaction matching entity structure', () => {
+            const transaction = service.create({
+                amount: 100,
+                type: 'DEPOSIT',
+            });
 
-            const newUser = await service.create({ id: '1', amount: 100, type: 'DEPOSIT', timestamp: new Date() });
-
-            expect(newUser).toEqual(result);
+            expect(transaction).toMatchObject({
+                amount: 100,
+                type: 'DEPOSIT',
+                status: 'PENDING',
+            });
         });
     });
+
 });
 
